@@ -1,0 +1,63 @@
+:root {
+    --pink: #ff4d6d;
+    --dark-pink: #c9184a;
+    --soft-white: #fff0f3;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffb3c1;
+    background-image: radial-gradient(circle, #ffccd5 0%, #ff4d6d 100%);
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    padding: 2rem;
+    border-radius: 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    text-align: center;
+    z-index: 10;
+    max-width: 90%;
+    width: 350px;
+    border: 2px solid white;
+}
+
+.tree {
+    width: 180px;
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+}
+
+.timer {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--dark-pink);
+    background: var(--soft-white);
+    padding: 10px;
+    border-radius: 15px;
+    margin-top: 15px;
+}
+
+/* Animación de los corazones cayendo */
+.corazon-caida {
+    position: absolute;
+    top: -10%;
+    font-size: 20px;
+    color: #ff4d6d;
+    user-select: none;
+    pointer-events: none;
+    z-index: 1;
+    animation: caer linear forwards;
+}
+
+@keyframes caer {
+    to {
+        transform: translateY(110vh) rotate(360deg);
+    }
+}
