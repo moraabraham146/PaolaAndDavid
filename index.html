@@ -2,198 +2,194 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para mi San Valentín</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para Mi San Valentín</title>
     <style>
-        :root {
-            --pink: #ff4d6d;
-            --dark-pink: #c9184a;
-            --soft-pink: #ffccd5;
-            --brown: #5d4037;
-        }
-
         body {
             margin: 0;
-            height: 100vh;
+            padding: 0;
+            background-color: #fff5f7;
+            font-family: 'Arial', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: radial-gradient(circle, var(--soft-pink) 0%, var(--pink) 100%);
+            height: 100vh;
             overflow: hidden;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        #lluvia-corazones {
-            position: fixed;
-            top: 0;
+        #canvas {
+            position: absolute;
+            bottom: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
             z-index: 1;
         }
 
-        .card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 2rem;
-            border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        #startBtn {
+            position: absolute;
+            padding: 20px 40px;
+            font-size: 22px;
+            background: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 10px 20px rgba(255, 64, 129, 0.4);
+            transition: opacity 0.5s;
+        }
+
+        #ui-layer {
+            position: absolute;
+            top: 15%;
+            width: 85%;
+            max-width: 400px;
             text-align: center;
-            z-index: 10;
-            width: 340px;
-            border: 2px solid white;
+            z-index: 50;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 1.5s ease;
+            pointer-events: none;
         }
 
-        h2 { color: var(--dark-pink); margin-bottom: 5px; }
-        .quote { color: #666; font-style: italic; font-size: 0.9rem; margin-bottom: 20px; }
-
-        /* --- ÁRBOL HECHO CON CSS --- */
-        .arbol-container {
-            position: relative;
-            width: 150px;
-            height: 180px;
-            margin: 0 auto 20px;
-            animation: balanceo 4s ease-in-out infinite;
-            transform-origin: bottom center;
-        }
-
-        .tronco {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 15px;
-            height: 80px;
-            background: var(--brown);
-            border-radius: 5px;
-        }
-
-        .copa {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 120px;
-            background: var(--pink);
-            border-radius: 50%;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        /* Corazones dentro del árbol */
-        .hoja {
-            color: white;
-            font-size: 20px;
-            margin: 2px;
-            animation: latido 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes latido {
-            from { transform: scale(1); }
-            to { transform: scale(1.2); }
-        }
-
-        @keyframes balanceo {
-            0%, 100% { transform: rotate(-2deg); }
-            50% { transform: rotate(2deg); }
-        }
-
-        /* --- CONTADOR --- */
-        .timer {
-            background: var(--pink);
-            color: white;
-            padding: 15px;
+        .message-box {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
             border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border: 2px solid #ffc1e3;
+        }
+
+        #timer {
+            font-size: 1.2rem;
+            color: #d81b60;
             font-weight: bold;
-            font-size: 1.1rem;
             margin-top: 15px;
-            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+            display: block;
         }
 
-        /* --- ANIMACIÓN LLUVIA --- */
-        .corazon-caida {
-            position: absolute;
-            top: -10%;
-            color: white;
-            font-size: 20px;
-            animation: caer linear forwards;
-        }
-
-        @keyframes caer {
-            to { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-        }
+        h2 { color: #ad1457; margin: 0 0 10px 0; font-size: 1.4rem; }
+        p { color: #555; font-size: 1rem; }
     </style>
 </head>
 <body>
 
-    <div id="lluvia-corazones"></div>
+    <button id="startBtn">❤️ Abrir Carta</button>
 
-    <div class="card">
-        <h2>Para mi amor:</h2>
-        <p class="quote">Si pudiera elegir un lugar seguro, sería a tu lado...</p>
-
-        <div class="arbol-container">
-            <div class="tronco"></div>
-            <div class="copa">
-                <span class="hoja">❤</span><span class="hoja">❤</span>
-                <span class="hoja">❤</span><span class="hoja">❤</span>
-                <span class="hoja">❤</span><span class="hoja">❤</span>
-                <span class="hoja">❤</span><span class="hoja">❤</span>
-                <span class="hoja">❤</span>
-            </div>
+    <div id="ui-layer">
+        <div class="message-box">
+            <h2>Para mi persona favorita:</h2>
+            <p>Si pudiera elegir un lugar seguro, seria a tu lado</p>
+            <p>Cuanto mas tiempo estoy contigo mas Te Amo</p>
+            <p>I LOVE YOU</p>
+            <p>Mi amor por ti comenzo hace:</p>
+            <div id="timer">Calculando...</div>
         </div>
-
-        <p style="font-size: 0.8rem; color: #888;">Nuestro amor comenzó hace...</p>
-        <div id="contador" class="timer">Calculando...</div>
     </div>
 
+    <canvas id="canvas"></canvas>
+
     <script>
-        // --- LÓGICA DEL TIEMPO ---
-        // Pon aquí tu fecha: (Año, Mes-1, Día)
-        const fechaInicio = new Date(2025, 08, 06, 0, 0, 0); 
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const startBtn = document.getElementById('startBtn');
+        const uiLayer = document.getElementById('ui-layer');
 
-        function actualizarContador() {
-            const ahora = new Date();
-            const diferencia = ahora - fechaInicio;
+        // Ajuste de pantalla
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', initCanvas);
+        initCanvas();
 
-            const d = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((diferencia % (1000 * 60)) / 1000);
+        // --- CONFIGURACIÓN ---
+        const startDate = new Date(2025, 8, 6); // Cambia tu fecha aquí (Mes 1 = Febrero)
 
-            document.getElementById('contador').innerText = `${d}d ${h}h ${m}m ${s}s`;
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
+            const days = Math.floor(diff / 86400000);
+            const hours = Math.floor((diff / 3600000) % 24);
+            const mins = Math.floor((diff / 60000) % 60);
+            const secs = Math.floor((diff / 1000) % 60);
+            document.getElementById('timer').innerText = `${days}d ${hours}h ${mins}m ${secs}s`;
         }
 
-        // --- LÓGICA DE LA LLUVIA ---
-        function crearCorazon() {
-            const contenedor = document.getElementById('lluvia-corazones');
-            const corazon = document.createElement('div');
-            corazon.classList.add('corazon-caida');
-            corazon.innerHTML = '❤';
-            
-            corazon.style.left = Math.random() * 100 + "vw";
-            corazon.style.fontSize = Math.random() * 20 + 10 + "px";
-            
-            const duracion = Math.random() * 3 + 3;
-            corazon.style.animationDuration = duracion + "s";
-            corazon.style.opacity = Math.random();
-
-            contenedor.appendChild(corazon);
-
-            setTimeout(() => {
-                corazon.remove();
-            }, duracion * 1000);
+        // --- DIBUJAR CORAZÓN ---
+        function drawHeart(x, y, size, color) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.translate(x, y);
+            ctx.rotate(Math.PI); 
+            ctx.fillStyle = color;
+            for (let i = 0; i < 30; i++) {
+                const angle = (i / 30) * Math.PI * 2;
+                const px = size * 16 * Math.pow(Math.sin(angle), 3);
+                const py = size * (13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle));
+                if (i === 0) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            }
+            ctx.fill();
+            ctx.restore();
         }
 
-        setInterval(actualizarContador, 1000);
-        setInterval(crearCorazon, 300);
-        actualizarContador();
+        // --- LÓGICA DEL ÁRBOL ---
+        // Dibujamos el tronco principal animado
+        function animateTree() {
+            let currentLen = 0;
+            const maxLen = 100;
+            
+            const timerTree = setInterval(() => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                // Base del tronco
+                drawBranch(canvas.width / 2, canvas.height - 20, currentLen, 0, 12);
+                currentLen += 2;
+                
+                if (currentLen > maxLen) {
+                    clearInterval(timerTree);
+                    // Una vez termina el tronco, aparecen las letras
+                    uiLayer.style.opacity = "1";
+                    uiLayer.style.transform = "translateY(0)";
+                    updateTimer();
+                    setInterval(updateTimer, 1000);
+                }
+            }, 30);
+        }
+
+        function drawBranch(x, y, len, angle, width) {
+            const nextX = x + Math.sin(angle) * len;
+            const nextY = y - Math.cos(angle) * len;
+
+            ctx.beginPath();
+            ctx.strokeStyle = "#4e342e";
+            ctx.lineWidth = width;
+            ctx.lineCap = 'round';
+            ctx.moveTo(x, y);
+            ctx.lineTo(nextX, nextY);
+            ctx.stroke();
+
+            if (len < 10) {
+                // Dibujar hojas de corazón bien distribuidas al final
+                drawHeart(nextX, nextY, 0.5, "#ff80ab");
+                return;
+            }
+
+            drawBranch(nextX, nextY, len * 0.75, angle + 0.4, width * 0.7);
+            drawBranch(nextX, nextY, len * 0.75, angle - 0.4, width * 0.7);
+        }
+
+        // --- INICIO ---
+        function init() {
+            startBtn.style.opacity = '0';
+            setTimeout(() => startBtn.style.display = 'none', 500);
+            animateTree();
+        }
+
+        startBtn.addEventListener('click', init);
+        startBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            init();
+        });
     </script>
 </body>
 </html>
-
